@@ -1,0 +1,39 @@
+body{
+  background-color:  #263238;
+}
+
+.estate {
+  cursor: pointer;
+}
+
+.map-background {
+  fill: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.map-background.clickable {
+  cursor: pointer;
+  pointer-events: all;
+}
+
+
+
+.datapoint-node{
+  fill: #263238;
+  stroke: #C62828;
+  stroke-width: 2;
+}
+ 
+.dataline {
+  fill: none;
+  stroke: #C62828;
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.axis line, .axis text{
+  stroke: #fff;
+}
+

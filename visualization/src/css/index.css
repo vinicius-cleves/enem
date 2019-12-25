@@ -1,5 +1,14 @@
-body{
+body {
   background-color:  #263238;
+}
+
+h1 {
+  color: #fff;
+}
+
+p {
+  color: #fff;
+  font-size: x-small;
 }
 
 .estate {

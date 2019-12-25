@@ -15,18 +15,13 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-12 col-md-4 align-items-center justify-content-center">
-          <div class="row justify-content-center">
-            <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" class="btn btn-secondary">Melhores</button>
-              <button type="button" class="btn btn-secondary">Média</button>
-            </div>
-          </div>
-          <div class="row" id='plot'>
-
-          </div>
+        <div class="col-12 col-md-6 align-items-center justify-content-center">
+          <h1 id='plot-reference'></h1>
+          <div class="row" id='plot'> </div>
+          <p id='plot-legend'></p>       
+          
         </div>
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-6">
           <div class='row'>
             <div class="row justify-content-center">
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -46,8 +41,8 @@
             </div>
             <div class="row justify-content-center">
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="TestType0" > Humanas
+                <label class="btn btn-secondary active">
+                  <input type="radio" name="options" id="TestType0" checked > Humanas
                 </label>
                 <label class="btn btn-secondary">
                   <input type="radio" name="options" id="TestType1"> Natureza
@@ -61,8 +56,8 @@
                 <label class="btn btn-secondary">
                   <input type="radio" name="options" id="TestType4"> Redação
                 </label>
-                <label class="btn btn-secondary active">
-                  <input type="radio" name="options" id="TestType6" checked> Média
+                <label class="btn btn-secondary ">
+                  <input type="radio" name="options" id="TestType6" > Média
                 </label>
                 <label class="btn btn-secondary">
                   <input type="radio" name="options" id="TestType5"> Melhor

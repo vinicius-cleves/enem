@@ -31,7 +31,11 @@ const svg = d3.select('#map').append('svg')
 const colorscale = d3.scaleSequential(d3.interpolateRdYlBu)
 const background = svg.append("rect")
   .classed('map-background', true)
-  .on("click", reset);
+  .on("click", ()=>updateUpstream({
+    selectedEstate: null, 
+    selectedCity: null,  
+    mapTransition:true
+  }));
 const mapG = svg.append("g")
   .style("stroke-width", "1.5px")
 const states = mapG.selectAll("path")
@@ -40,7 +44,11 @@ const states = mapG.selectAll("path")
   .append("path")
     .attr('id', (datapoint)=>datapoint.id)
     .classed("estate", true)
-    .on('click', (datapoint)=>selectEstate(datapoint));
+    .on('click', (datapoint)=>updateUpstream({
+      selectedEstate:datapoint,
+      selectedCity:null,
+      mapTransition: true
+    }));
 const states_outline = mapG.append("path")
   .datum( topojson.mesh(Brasil_topojson, Brasil_topojson.objects.uf, (a, b)=>a!==b) )      
   .attr('fill', 'none')
@@ -111,7 +119,9 @@ const draw = (withTransition=false) => {
     enter=>enter.append('path')
       .attr("d", path)
       .attr('id', (d)=>d.properties.NOME)
-      .on('click', (d)=>console.log(d.id))
+      .on('click', (d)=>updateUpstream({
+        selectedCity:d,
+      }))
       .style("fill", (d)=>{
         const val = enem.cityMean(d.properties.uf, d.properties.name, schoolType, testType);
         return val ? colorscale(val) : '#fff'
@@ -164,66 +174,6 @@ const draw = (withTransition=false) => {
     .call(d3.axisRight(legendscale)); 
 }
 
-/* 
-// add legend
-const legendHeight = height*0.6;
-const legendwidth = 60;
-const margin = { top: 20, bottom: 20, left: 5, right: 30 };
-
-const legend = d3.select('#legend-map');
-
-
-var canvas = legend
-    .style("height", legendheight + "px")
-    .style("width", legendwidth + "px")
-    .style("position", "relative")
-    .append("canvas")
-    .attr("height", legendheight - margin.top - margin.bottom)
-    .attr("width", 1)
-    .style("height", (legendheight - margin.top - margin.bottom) + "px")
-    .style("width", (legendwidth - margin.left - margin.right) + "px")
-    .style("border", "1px solid #000")
-    .style("position", "absolute")
-    .style("top", (margin.top) + "px")
-    .style("left", (margin.left) + "px")
-    .node();
-
-var ctx = canvas.getContext("2d");
-
-var legend_svg = legend
-    .append("svg")
-    .attr("height", (legendheight) + "px")
-    .attr("width", (legendwidth) + "px")
-    .style("position", "absolute")
-    .style("left", "0px")
-    .style("top", "0px")
-    .append("g")
-    .attr("class", "axis")
-    .attr("transform", "translate(" + (legendwidth - margin.left - margin.right + 3) + "," + (margin.top) + ")")
-    
-
-function updateColourScale(testType) {
-  colorscale.domain(enem.getLimits(testType)).nice()
-
-  const legendscale = d3.scaleLinear()
-  .domain(colorscale.domain())
-  .range([1, legendheight - margin.top - margin.bottom]);
-  
-  // image data hackery based on http://bl.ocks.org/mbostock/048d21cf747371b11884f75ad896e5a5
-  var image = ctx.createImageData(1, legendheight);
-  d3.range(legendheight).forEach(function(i) {
-    var c = d3.rgb(colorscale(legendscale.invert(i)));
-    image.data[4*i] = c.r;
-    image.data[4*i + 1] = c.g;
-    image.data[4*i + 2] = c.b;
-    image.data[4*i + 3] = 255;
-  });
-  ctx.putImageData(image, 0, 0);
-
-  legend_svg
-    .call(d3.axisRight(legendscale));
-} */
-
 function getMunicipios(stateId){
   return topojson.feature(Municipios_topojson, 
     { ...Municipios_topojson.objects.Munic,
@@ -232,24 +182,17 @@ function getMunicipios(stateId){
   )
 }
 
-function selectEstate(d){
-  selectedEstate = d;
-  draw(true)
+let updateUpstreamHandler;
+export function signUpForUpstreamUpdate(handler){
+  updateUpstreamHandler = handler;
+} 
+function updateUpstream(u){
+  updateUpstreamHandler(u);
 }
-
-function reset(){
-  selectedEstate = null;
-  draw(true)  
+function update(props={}){
+  if(props.hasOwnProperty('schoolType'))  { schoolType = props.schoolType; }
+  if(props.hasOwnProperty('testType'))    { testType = props.testType; }
+  if(props.hasOwnProperty('selectedEstate')) { selectedEstate = props.selectedEstate; }
+  draw(!!props.mapTransition)
 }
-
-export function repaint(schoolType_, testType_){
-  if(schoolType_) {
-    schoolType = schoolType_;
-  }
-  if (testType_) {
-    testType = testType_
-  };
-  draw()
-}
-
-export default draw;
+export default update;

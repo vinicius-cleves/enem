@@ -26,7 +26,8 @@ function update(u){
 }
 
 signUpForUpstreamUpdate(update)
-
+let first = true;
 window.onresize = ()=>{
-  update({schoolType:'2.0', testType:1})
+  update(first ? {schoolType:'2.0', testType:1}:undefined)
+  first = false
 };

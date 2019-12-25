@@ -1,4 +1,4 @@
-import {repaint} from './map'
+import map, {repaint} from './map'
 import plot from './plot'
 
 function bindTestTypeButtons(){
@@ -17,3 +17,8 @@ function bindSchoolTypeButtons(){
   }
 }
 bindSchoolTypeButtons()
+
+window.onresize = ()=>{
+  map();
+  plot();
+};

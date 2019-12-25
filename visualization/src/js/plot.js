@@ -95,7 +95,7 @@ function resize() {
   
 }
 
-window.onresize = resize;
+export default resize;
 //Call our resize function if the window size is changed.
 
 /* 

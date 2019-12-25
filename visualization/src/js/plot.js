@@ -2,7 +2,7 @@ import * as d3 from 'd3'
 import data_model from './data_model'
 //Variables that control display
 let schoolType = '2.0';
-let testType = 6; 
+let testType = 0; 
 let selectedEstate;
 let selectedCity;
 //

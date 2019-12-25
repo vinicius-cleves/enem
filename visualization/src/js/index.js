@@ -22,12 +22,10 @@ bindSchoolTypeButtons()
 function update(u){
   map(u);
   plot(u);
-  console.log('update')
 }
 
 signUpForUpstreamUpdate(update)
-let first = true;
+
 window.onresize = ()=>{
-  update(first ? {schoolType:'2.0', testType:1}:undefined)
-  first = false
+  update()
 };

@@ -20,7 +20,7 @@ function getScale(d, path, width, height){
 }
 //Variables that control display
 let schoolType = '2.0';
-let testType = 6; 
+let testType = 0; 
 let selectedEstate;
 //Initialize projection
 const projection = d3.geoMercator().translate([0, 0]).scale(1);

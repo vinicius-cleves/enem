@@ -13,7 +13,6 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <h1 id='HelloWorld'>Hello, world!</h1>
     <div class="container">
       <div class="row">
         <div class="col-12 col-md-8 align-items-center justify-content-center">
@@ -28,7 +27,58 @@
           </div>
         </div>
         <div class="col-12 col-md-4">
-            <svg id='map' height='500' width='500'></svg>
+          <div class='row'>
+            <div class="row justify-content-center">
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="SchoolType1" > Federal
+                </label>
+                <label class="btn btn-secondary active">
+                  <input type="radio" name="options" id="SchoolType2" checked> Estadual
+                </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="SchoolType3"> Municipal
+                </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="SchoolType4"> Privada
+                </label>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="TestType0" > Humanas
+                </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="TestType1"> Natureza
+                </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="TestType2"> Linguagens
+                </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="TestType3"> Matemática
+                </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="TestType4"> Redação
+                </label>
+                <label class="btn btn-secondary active">
+                  <input type="radio" name="options" id="TestType6" checked> Média
+                </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="TestType5"> Melhor
+                </label>
+              </div>
+            </div>      
+          </div>
+          <div class='row'>
+            <div class='col-11'>
+                <svg id='map' height='500' width='500'></svg>
+            </div>
+            <div class='col-1'>
+              <div id='legend-map'></div>
+            </div>
+          </div>
+          
         </div>
       </div>
     </div>

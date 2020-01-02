@@ -1,0 +1,44 @@
+.ranking {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.ranking td {
+  padding: 0;
+  color: #fff;
+  font-size: 13px;
+}
+
+.ranking h3 {
+  margin-top: 20px;
+  margin-bottom: 9px;
+  border-bottom: 1px solid #78909c;
+  padding-bottom: 9px;
+  color: #ffb74d;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.ranking table{
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%
+}
+
+.ranking table .position {
+  width: 46px;
+  text-align: center;
+}
+
+.ranking table .value {
+  width: 56px;
+  text-align: right;
+}
+
+.ranking table .active td{
+  color: #ffb74d;
+}
+
+
+

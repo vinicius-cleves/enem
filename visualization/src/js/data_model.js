@@ -9,6 +9,17 @@ import {
   limits as ilimits
 } from '../../../processing/exports/byincome.json'
 
+const cityArray = Object.entries(city).reduce((acc, [stateName, _state])=>{
+  return Object.entries(_state).reduce((_acc, [cityName, _city])=>{
+    _acc.push({
+      city: cityName, 
+      state: stateName, 
+      value: _city
+    })
+    return _acc;
+  }, acc)
+}, [])
+
 function get_income_bins(){
   const bins = [0, ...income_bins];
   const bins_border = bins.slice(0,-1).map((c,i)=>[c, bins[i+1]]);
@@ -87,8 +98,15 @@ function getLimits(testType){
   return (testType == 4) ? limits.redacao : limits.general;
 }
 
+function rankedCities(schoolType='2.0', testType=5){
+  return cityArray.filter(cur=>!!cur.value[schoolType]).sort((a,b)=>(
+    b.value[schoolType][testType] - a.value[schoolType][testType]
+  ))
+}
+
 
 export default {
+  rankedCities,
   getLimits,
   estateMean, 
   cityMean,

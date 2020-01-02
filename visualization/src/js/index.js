@@ -1,5 +1,6 @@
 import map, {signUpForUpstreamUpdate} from './map'
 import plot from './plot'
+import ranking from './ranking'
 
 function bindTestTypeButtons(){
   for(let i = 0; i<7; i++){
@@ -22,14 +23,11 @@ bindSchoolTypeButtons()
 function update(u){
   map(u);
   plot(u);
+  ranking(u);
 }
 
 signUpForUpstreamUpdate(update)
-update({
-  schoolType: '2.0',
-  testType:0
-})
+update({schoolType: '2.0',testType:0})
 window.onresize = ()=>{
   update()
-  console.log('passou')
 };

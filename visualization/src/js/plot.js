@@ -49,7 +49,7 @@ function draw(transitionDuration = 0) {
   document.getElementById('plot-reference').innerHTML = 
     (selectedCity ? (selectedCity.properties.name + ', ') : '') +
     (selectedEstate ? selectedEstate.id : 'Brasil');
-  const height = width / 2;
+  const height = width / 2.7;
   const {data, limits} = data_model.getDataForIncomeChart(
     schoolType, 
     testType, 

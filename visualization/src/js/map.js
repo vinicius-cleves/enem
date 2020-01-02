@@ -81,7 +81,7 @@ const draw = (transitionDuration=0) => {
   const height = width;
   const legendHeight = height;
   const legendWidth = document.getElementById('legend-map').clientWidth
-  console.log(legendWidth)
+  
   const margin = { top: height*0.2, bottom: height*0.2, left: 0, right: legendWidth-10 };
 
   svg

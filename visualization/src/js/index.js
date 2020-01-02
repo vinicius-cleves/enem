@@ -25,7 +25,11 @@ function update(u){
 }
 
 signUpForUpstreamUpdate(update)
-
+update({
+  schoolType: '2.0',
+  testType:0
+})
 window.onresize = ()=>{
   update()
+  console.log('passou')
 };

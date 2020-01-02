@@ -22,6 +22,7 @@ function getScale(d, path, width, height){
 let schoolType = '2.0';
 let testType = 0; 
 let selectedEstate;
+let selectedCity;
 //Initialize projection
 const projection = d3.geoMercator().translate([0, 0]).scale(1);
 const path = d3.geoPath(projection);
@@ -31,10 +32,10 @@ const svg = d3.select('#map').append('svg')
 const colorscale = d3.scaleSequential(d3.interpolateRdYlBu)
 const background = svg.append("rect")
   .classed('map-background', true)
-  .on("click", ()=>updateUpstream({
+  .on("click", () => updateUpstream({
     selectedEstate: null, 
     selectedCity: null,  
-    mapTransition:true
+    transitionDuration: 750
   }));
 const mapG = svg.append("g")
   .style("stroke-width", "1.5px")
@@ -44,10 +45,10 @@ const states = mapG.selectAll("path")
   .append("path")
     .attr('id', (datapoint)=>datapoint.id)
     .classed("estate", true)
-    .on('click', (datapoint)=>updateUpstream({
-      selectedEstate:datapoint,
-      selectedCity:null,
-      mapTransition: true
+    .on('click', (datapoint) => updateUpstream({
+      selectedEstate: datapoint,
+      selectedCity: null,
+      transitionDuration: 750
     }));
 const states_outline = mapG.append("path")
   .datum( topojson.mesh(Brasil_topojson, Brasil_topojson.objects.uf, (a, b)=>a!==b) )      
@@ -55,6 +56,10 @@ const states_outline = mapG.append("path")
   .attr("stroke", "black")
   .attr("stroke-linejoin", "round");
 const mun = mapG.append('g')
+const selectedCityOutline = mapG.append('path')
+  .attr('fill', 'none')
+  .attr("stroke", "black")
+  .attr("stroke-linejoin", "round");;
 const legend = d3.select('#legend-map');
 
 const canvas = legend
@@ -71,7 +76,7 @@ const legendG = legendSvg.append("g")
     .attr("class", "axis")
 
 const legendscale = d3.scaleLinear()    
-const draw = (withTransition=false) => {  
+const draw = (transitionDuration=0) => {  
   const width = document.getElementById('map').clientWidth;
   const height = width;
   const legendHeight = height;
@@ -82,7 +87,7 @@ const draw = (withTransition=false) => {
   svg
     .attr('width', width)
     .attr('height', height);
-  const tr = withTransition && d3.transition().duration(750);
+  const tr = (transitionDuration > 0) && d3.transition().duration(transitionDuration);
   const trf = d3.transition().duration(250);
   //update projection
   const s = 20 * .95 / Math.max((bbox[1][0] - bbox[0][0]) / width, (bbox[1][1] - bbox[0][1]) / height);
@@ -94,7 +99,7 @@ const draw = (withTransition=false) => {
   const data = selectedEstate || Brasil
   const {scale, translate} = getScale(data, path, width, height);
   //update window
-  (withTransition ? mapG.transition(tr) : mapG)
+  (transitionDuration > 0 ? mapG.transition(tr) : mapG)
   .style("stroke-width", 1.5 / scale + "px")
   .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
   //update background
@@ -124,7 +129,7 @@ const draw = (withTransition=false) => {
       }))
       .style("fill", (d)=>{
         const val = enem.cityMean(d.properties.uf, d.properties.name, schoolType, testType);
-        return val ? colorscale(val) : '#fff'
+        return val ? colorscale(val) : '#9A9A9A'
       })
       .attr('opacity', '0')
       .call(enter=>enter.transition(tr)
@@ -142,6 +147,10 @@ const draw = (withTransition=false) => {
         .remove()
       )
   )
+  //if selectedCity, display city outline
+  selectedCityOutline
+    .datum(selectedCity)
+    .attr("d", path)
   //insert legend
   const canvasNode = canvas
     .attr("height", legendHeight - margin.top - margin.bottom)
@@ -193,6 +202,7 @@ function update(props={}){
   if(props.hasOwnProperty('schoolType'))  { schoolType = props.schoolType; }
   if(props.hasOwnProperty('testType'))    { testType = props.testType; }
   if(props.hasOwnProperty('selectedEstate')) { selectedEstate = props.selectedEstate; }
-  draw(!!props.mapTransition)
+  if(props.hasOwnProperty('selectedCity')) { selectedCity = props.selectedCity; }
+  draw(props.transitionDuration)
 }
 export default update;

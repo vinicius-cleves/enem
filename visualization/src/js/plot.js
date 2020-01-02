@@ -42,9 +42,9 @@ const line = d3.line()
 //print legend
 document.getElementById('plot-legend').innerHTML = 'Faixas de renda por pessoa na familia (em reais):<br>'+ 
 'A: Sem rendimento&nbsp;&nbsp;&nbsp;&nbsp;'+
-'BCDEFGHIJKLMNOP'.split('').map((c,i)=>c+': '+Math.round(bins_border[i+1][0])+' - '+Math.round(bins_border[i+1][0])).join('&nbsp;&nbsp;&nbsp;&nbsp;')+
-'Q: '+Math.round(bins_border[16][0])+'+';
-function draw() {
+'BCDEFGHIJKLMNOP'.split('').map((c,i)=>c+': '+Math.round(bins_border[i+1][0])+' - '+Math.round(bins_border[i+2][0])).join('&nbsp;&nbsp;&nbsp;&nbsp;')+
+'&nbsp;&nbsp;&nbsp;&nbsp;Q: '+Math.round(bins_border[16][0])+'+';
+function draw(transitionDuration = 0) {
   const width = document.getElementById('plot').clientWidth;
   document.getElementById('plot-reference').innerHTML = 
     (selectedCity ? (selectedCity.properties.name + ', ') : '') +
@@ -110,8 +110,7 @@ function draw() {
       .attr("d", line(data));
      
   } else {
-    drawLine
-      .transition(t)
+    (transitionDuration > 0 ? drawLine.transition(t) : drawLine)
       .attr("d", line(data));
     g.selectAll('circle')
       .data(data, d=>d[0])
@@ -124,9 +123,10 @@ function draw() {
         update=>update,
         exit=>exit.remove()
       )
-      .transition(t)
-      .attr('cx', d => xScale(d[0]))
-      .attr('cy', d => yScale(d[1])) 
+      .call(d => (transitionDuration > 0 ? d.transition(t) : d)
+        .attr('cx', d => xScale(d[0]))
+        .attr('cy', d => yScale(d[1])) 
+      )
   }
   
 }
@@ -136,7 +136,7 @@ function update(props={}){
   if(props.hasOwnProperty('testType'))    { testType = props.testType; }
   if(props.hasOwnProperty('selectedEstate')) { selectedEstate = props.selectedEstate; }
   if(props.hasOwnProperty('selectedCity')) { selectedCity = props.selectedCity; }
-  draw()
+  draw(props.transitionDuration)
 }
 
 export default update;

@@ -8,7 +8,7 @@ import {
   state as istate,
   limits as ilimits
 } from '../../../processing/exports/byincome.json'
-console.log(income_bins)
+
 function get_income_bins(){
   const bins = [0, ...income_bins];
   const bins_border = bins.slice(0,-1).map((c,i)=>[c, bins[i+1]]);

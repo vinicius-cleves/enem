@@ -23,6 +23,8 @@ let schoolType = '2.0';
 let testType = 0; 
 let selectedEstate;
 let selectedCity;
+
+const noDataColor = '#9A9A9A';
 //Initialize projection
 const projection = d3.geoMercator().translate([0, 0]).scale(1);
 const path = d3.geoPath(projection);
@@ -113,7 +115,7 @@ const draw = (transitionDuration=0) => {
     .transition(trf)
     .style('fill', (d)=>{
       const val = enem.estateMean(d.id, schoolType, testType);
-      return val ? colorscale(val) : '#fff';
+      return val ? colorscale(val) : noDataColor;
     })
   //update states outline
   states_outline.attr("d", path);
@@ -129,7 +131,7 @@ const draw = (transitionDuration=0) => {
       }))
       .style("fill", (d)=>{
         const val = enem.cityMean(d.properties.uf, d.properties.name, schoolType, testType);
-        return val ? colorscale(val) : '#9A9A9A'
+        return val ? colorscale(val) : noDataColor
       })
       .attr('opacity', '0')
       .call(enter=>enter.transition(tr)
@@ -138,7 +140,7 @@ const draw = (transitionDuration=0) => {
     update => update.call(update=>update.transition(trf)
       .style("fill", (d)=>{
         const val = enem.cityMean(d.properties.uf, d.properties.name, schoolType, testType);
-        return val ? colorscale(val) : '#fff'
+        return val ? colorscale(val) : noDataColor
       })
     ),
     exit => exit

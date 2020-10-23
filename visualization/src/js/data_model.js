@@ -59,7 +59,7 @@ function getDataForIncomeChart(schoolType='2.0', testType=2, level='country', st
 function estateMean(s, schoolType='2.0', testType=5){
   const lim = (testType == 4) ? limits.redacao : limits.general;
   if(state[s] && state[s][schoolType]){
-    return state[s][schoolType][6];
+    return state[s][schoolType][testType];
   }
   return null;
   
